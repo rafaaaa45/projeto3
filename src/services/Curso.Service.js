@@ -3,7 +3,7 @@ import Curso from '../models/Curso.Model.js';
 
 class CursoService {
   async getCursosPorMedia(mediaRecebida) {
-    return Curso.find({ media: { $lt: mediaRecebida } });
+    return Curso.find({ media: { $lte: mediaRecebida } });
   }
 }
 
