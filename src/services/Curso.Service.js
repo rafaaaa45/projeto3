@@ -1,9 +1,9 @@
 // services/userService.js
-import Curso from '../models/Curso.Model';
+import Curso from '../models/Curso.Model.js';
 
 class CursoService {
-  async getCursosPorMedia(media) {
-    return Curso.find({ media: { $lte: media } });
+  async getCursosPorMedia(mediaRecebida) {
+    return Curso.find({ media: { $lt: mediaRecebida } });
   }
 }
 

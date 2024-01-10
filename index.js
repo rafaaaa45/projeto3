@@ -8,7 +8,7 @@ const app = express();
 mongo.connect();
 
 // Use User Routes
-app.use('/cursos/media/:media', CursoRoute);
+app.get('/cursos/media/:mediaRecebida', CursoRoute);
 
 app.listen(PORT, () => {
   console.log(`App listening at http://localhost:${PORT}`)

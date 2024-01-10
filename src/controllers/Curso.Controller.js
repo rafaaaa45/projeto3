@@ -1,10 +1,10 @@
-import CursoService from '../services/Curso.Service';
+import CursoService from '../services/Curso.Service.js';
 
 class CursoController {
   async getCursosPorMedia(req, res) {
     try {
-      const { media } = req.params;
-      const mediaFloat = parseFloat(media);
+      const { mediaRecebida } = req.params;
+      const mediaFloat = parseFloat(mediaRecebida);
 
       if (isNaN(mediaFloat)) {
         return res.status(400).json({ error: 'A média recebida deve ser um número válido.' });

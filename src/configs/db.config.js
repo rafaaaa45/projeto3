@@ -2,7 +2,9 @@ import Mongoose from "mongoose";
 import { DB_CONNECTION } from "../utils/constants.js";
 
 const connect = () => {
-  Mongoose.connect(DB_CONNECTION)
+  Mongoose.connect(DB_CONNECTION, {
+    dbName: 'projeto3'
+  })
     .then(() => {
       console.log("Conectado na base de Dados");
     })

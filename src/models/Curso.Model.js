@@ -1,4 +1,3 @@
-// models/user.js
 import mongoose from 'mongoose';
 
 const cursoSchema = new mongoose.Schema({
@@ -16,7 +15,7 @@ const cursoSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  cadeirasIngresso: {
+  cadeiraIngresso: {
     type: [String],
     required: true
   },
