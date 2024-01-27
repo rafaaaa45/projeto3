@@ -1,14 +1,15 @@
-function calcularMedia(notas10, notas11, notas12, exames, percentagem) {
+// Esta função calcula a média ponderada das notas de um aluno nos últimos três anos
+function calcularMedia(notas10, notas11, notas12) {
     const validateYear = (notas, year) => {
-        if (notas !== undefined && notas.length >= 9 && notas.every(nota => nota >= 10)) {
+        if (notas !== undefined && notas.length >= 9 && notas.every(nota => nota >= 9)) {
             return notas;
         } else {
             let errorMessage = `Ano ${year} inválido.`;
             if (notas !== undefined && notas.length < 9) {
-                errorMessage += ' Deve ter pelo menos 9 valores.';
+                errorMessage += ' Deve ter pelo menos 9 disciplinas.';
             }
-            if (notas !== undefined && !notas.every(nota => nota >= 10)) {
-                errorMessage += ' Cada nota deve ser igual ou superior a 10.';
+            if (notas !== undefined && !notas.every(nota => nota >= 9)) {
+                errorMessage += ' Cada nota deve ser igual ou superior a 9.';
             }
             throw new Error(errorMessage);
         }
@@ -43,8 +44,56 @@ function calcularMedia(notas10, notas11, notas12, exames, percentagem) {
     }
 
     const media = soma / totalValues;
-    console.log(exames, percentagem)
     return media;
+}
+
+function calcularMediaPorCurso(dadosCursos, exameCandidato, notaExameCandidato, mediaDisciplinas){
+    let dados = [];
+
+    for(const curso of dadosCursos) {
+        for(let i = 0; i < exameCandidato.length; i++) {
+
+            let mediaTemp;
+            let numcadeira;
+
+            if(curso.cadeiraIngresso === exameCandidato[i]) {
+                mediaTemp += notaExameCandidato[i];
+                numcadeira += 1;
+            }
+
+            mediaTemp = mediaTemp / numcadeira;
+            dados.push({
+                name: curso.nome,
+                nota: mediaTemp,
+                percentagem: curso.percentagemExame
+            });
+        }
+    }
+
+    let dadosCursosCandidatos = [];
+
+    for(const elementos of dados) {
+
+        let mediaIngresso = calcularMediaIngresso(mediaDisciplinas,elementos.nota,elementos.percentagem)
+
+        if (mediaIngresso >= 9.5){
+            dadosCursosCandidatos.push({
+                nome: elementos.name,
+                notaFinal: mediaIngresso
+            });   
+        }
+    }   
+    
+    return dadosCursosCandidatos
+}
+
+// Esta função calcula a média ponderada das notas dos exames de um aluno
+function calcularMediaIngresso(mediaDisciplinas, mediaExame, percentageBD){
+    let percentage = percentageBD * 0.01
+
+    const mediaIngresso = mediaDisciplinas * (1 - percentage) + mediaExame * percentage;
+
+    return mediaIngresso;
 }
 
 export default calcularMedia;

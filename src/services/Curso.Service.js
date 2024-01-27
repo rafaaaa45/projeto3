@@ -1,4 +1,3 @@
-// services/userService.js
 import Curso from '../models/Curso.Model.js';
 
 class CursoService {

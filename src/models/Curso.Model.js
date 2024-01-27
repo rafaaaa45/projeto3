@@ -23,6 +23,10 @@ const cursoSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  examesObrigatorio: {
+    type: Boolean,
+    required: true
+  },
 });
 
 export default mongoose.model('Curso', cursoSchema);
