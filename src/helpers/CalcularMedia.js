@@ -125,6 +125,7 @@ function calcularMediaExameCurso(dadosCursos, exameCandidato, notaExameCandidato
 
         let mediaTemp = 0;
         let numcadeira = 0;
+        let media = 0;
 
         if (curso.examesObrigatorio){
             // Caso seja obrigatório todos os exames, irá calcular a média normalmente
@@ -139,6 +140,8 @@ function calcularMediaExameCurso(dadosCursos, exameCandidato, notaExameCandidato
             if(numcadeira != curso.cadeiraIngresso.length) {
                 continue;
             }
+
+            media = mediaTemp / numcadeira;
         } else {
             // Caso não seja obrigatório todos os exames, vai procurar pelo maior valor entre as notas dos exames do candidato
             let maxNota = 0;
@@ -156,10 +159,9 @@ function calcularMediaExameCurso(dadosCursos, exameCandidato, notaExameCandidato
             }
 
             // Averiguar a maior nota, a média entre os exames ou de apenas um dos exames
-            mediaTemp = Math.max(mediaTemp / numcadeira, maxNota);
+            media = Math.max(mediaTemp / numcadeira, maxNota);
         }
 
-        let media = mediaTemp / numcadeira;
 
         cursosPossiveis.push({
             name: curso.nome,
@@ -186,10 +188,12 @@ function calcularExamePossivel(listaCursos, mediaDisciplinas, exameCandidato, no
     for(const curso of listaCursos) {
 
         let cadeirasRestantes = [];
-        let percentage = curso.percentage * 0.01;
+        let percentage = curso.percentagemExame * 0.01;
 
         // Calcular a média Minima provisória
         let mediaExameMinimio = (curso.media - mediaDisciplinas * (1 - percentage)) / percentage;
+
+       
 
         // Se preencher o campo de exames que o candidato já realizou
         if(exameCandidato){
@@ -204,12 +208,13 @@ function calcularExamePossivel(listaCursos, mediaDisciplinas, exameCandidato, no
         if (mediaExameMinimio < 9.5){
             mediaExameMinimio = 9.5;
         }
+        
         // Não se irá sugerir cursos que exijão nota do exame muito alta comparado com a media das disciplinas do candidato
-        if ((mediaDisciplinas - mediaExameMinimio) > 4.5){
+        if ((mediaExameMinimio - mediaDisciplinas) > 4.5){
             continue;
         }
         
-
+        
         // Guardar o nome, a nota minima para entrar no curso, as disciplinas para fazer exame, e caso seja obrigatório fazer todos os exames
         resultado.push({nomeCurso: curso.nome, mediaExameMinimo: mediaExameMinimio, cadeirasIngresso: cadeirasRestantes, examesObrigatorio: curso.examesObrigatorio});
     }
@@ -245,8 +250,8 @@ function verificarExameRealizado(curso, exameCandidato, notaExameCandidato, medi
                 }
             }
             
-            for(let i = 0; i < notaExameCandidato.length; i++) {
-                notaSomadaAtual += notaExameCandidato[i];
+            for(const element of notaExameCandidato) {
+                notaSomadaAtual += element
             }
             // Calcular média assumindo os exames que o candidato preencheu
             mediaExameMinimio = mediaExameMinimio * curso.cadeiraIngresso.length - notaSomadaAtual;
@@ -281,4 +286,4 @@ function verificarExameRealizado(curso, exameCandidato, notaExameCandidato, medi
     return [cadeirasRestantes, mediaExameMinimio];
 }
 
-export default calcularMedia;
+export {calcularMedia, calcularMediaPorCurso, calcularExamePossivel};

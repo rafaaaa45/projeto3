@@ -16,7 +16,9 @@ app.use(bodyParser.json());
 
 app.get('/api/cursos/:mediaRecebida', CursoRoute);
 app.post('/api/media', CalculoMediaRoute);
-app.post('/api/percentagem', CalculoMediaRoute);
+app.post('/api/cursoExame', CalculoMediaRoute);
+app.post('/api/mediaCurso', CalculoMediaRoute);
+app.post('/api/mediaPossivel', CalculoMediaRoute);
 
 app.listen(PORT, () => {
   console.log(`App listening at https://localhost:${PORT}`)
