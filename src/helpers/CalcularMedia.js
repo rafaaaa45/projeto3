@@ -2,16 +2,20 @@
 
 // Esta função calcula a média ponderada das notas de um aluno nos últimos três anos
 function calcularMedia(notas10, notas11, notas12) {
-    const validateYear = (notas, year) => {
-        if (notas !== undefined &&
-            notas.length >= 9 &&
-            notas.every(nota => nota >= 9) &&
-            notas.every(nota => nota <= 20)) {
+    const validateYear = (notas, year, expectedSubjects) => {
+        if (
+            notas !== undefined &&
+            (notas.length === 0 || (notas.length >= expectedSubjects &&
+              notas.every(nota => nota >= 9) &&
+              notas.every(nota => nota <= 20))
+            )
+          ) {
             return notas;
-        } else {
+          }
+           else {
             let errorMessage = `Ano ${year} inválido.`;
-            if (notas !== undefined && notas.length < 9) {
-                errorMessage += ' Deve ter pelo menos 9 disciplinas.';
+            if (notas !== undefined && notas.length < expectedSubjects) {
+                errorMessage += `Deve ter pelo menos ${expectedSubjects} disciplinas.`;
             }
             if (notas !== undefined && !notas.every(nota => nota >= 9) && !notas.every(nota => nota <= 20)) {
                 errorMessage += ' Cada nota deve ser igual ou superior a 9 e igual ou inferior a 20.';
@@ -21,9 +25,9 @@ function calcularMedia(notas10, notas11, notas12) {
     };
 
     try {
-        notas10 = validateYear(notas10, 10);
-        notas11 = validateYear(notas11, 11);
-        notas12 = validateYear(notas12, 12);
+        notas10 = validateYear(notas10, 10, 7);
+        notas11 = validateYear(notas11, 11, 7);
+        notas12 = validateYear(notas12, 12, 5);
     } catch (error) {
         throw error;
     }
