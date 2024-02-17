@@ -84,10 +84,13 @@ function calcularMediaPorCurso(dadosCursos, exameCandidato, notaExameCandidato, 
     for(const elementos of dados) {
         let mediaIngresso = calcularMediaIngresso(mediaDisciplinas,elementos.nota,elementos.percentagem)
 
-        dadosCursosCandidatos.push({
-            nome: elementos.name,
-            notaFinal: mediaIngresso
-        });
+        if (mediaIngresso >= elementos.media){
+            dadosCursosCandidatos.push({
+                nome: elementos.name,
+                notaFinal: mediaIngresso,
+                url: elementos.url
+            });
+        }
     }   
     
     if (!dadosCursosCandidatos) {
@@ -170,7 +173,8 @@ function calcularMediaExameCurso(dadosCursos, exameCandidato, notaExameCandidato
         cursosPossiveis.push({
             name: curso.nome,
             nota: media,
-            percentagem: curso.percentagemExame
+            percentagem: curso.percentagemExame,
+            media: curso.media
         });
     }
 
@@ -197,8 +201,6 @@ function calcularExamePossivel(listaCursos, mediaDisciplinas, exameCandidato, no
         // Calcular a média Minima provisória
         let mediaExameMinimio = (curso.media - mediaDisciplinas * (1 - percentage)) / percentage;
 
-       
-
         // Se preencher o campo de exames que o candidato já realizou
         if(exameCandidato){
             [cadeirasRestantes, mediaExameMinimio] = verificarExameRealizado(curso, exameCandidato, notaExameCandidato, mediaExameMinimio);
@@ -218,9 +220,8 @@ function calcularExamePossivel(listaCursos, mediaDisciplinas, exameCandidato, no
             continue;
         }
         
-        
         // Guardar o nome, a nota minima para entrar no curso, as disciplinas para fazer exame, e caso seja obrigatório fazer todos os exames
-        resultado.push({nomeCurso: curso.nome, mediaExameMinimo: mediaExameMinimio, cadeirasIngresso: cadeirasRestantes, examesObrigatorio: curso.examesObrigatorio});
+        resultado.push({nomeCurso: curso.nome, mediaExameMinimo: mediaExameMinimio, cadeirasIngresso: cadeirasRestantes, examesObrigatorio: curso.examesObrigatorio, url: curso.url});
     }
 
     return resultado;
