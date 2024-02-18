@@ -88,7 +88,8 @@ function calcularMediaPorCurso(dadosCursos, exameCandidato, notaExameCandidato, 
             dadosCursosCandidatos.push({
                 nome: elementos.name,
                 notaFinal: mediaIngresso,
-                url: elementos.url
+                url: elementos.url,
+                media: elementos.media
             });
         }
     }   
@@ -169,12 +170,12 @@ function calcularMediaExameCurso(dadosCursos, exameCandidato, notaExameCandidato
             media = Math.max(mediaTemp / numcadeira, maxNota);
         }
 
-
         cursosPossiveis.push({
             name: curso.nome,
             nota: media,
             percentagem: curso.percentagemExame,
-            media: curso.media
+            media: curso.media,
+            url: curso.url,
         });
     }
 
