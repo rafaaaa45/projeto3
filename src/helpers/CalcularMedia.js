@@ -115,7 +115,7 @@ function calcularMediaIngresso(mediaDisciplinas, mediaExame, percentageBD){
         throw new Error(`A média de ingresso é insuficiente (${mediaDisciplinas}) ou muito alta.`);
     }
 
-    return mediaIngresso;
+    return mediaIngresso.toFixed(1);
 }
 
 // Correr todos os cursos possiveis para o candidato e calcular a sua média de exame para esse curso    
@@ -200,7 +200,7 @@ function calcularExamePossivel(listaCursos, mediaDisciplinas, exameCandidato, no
         let percentage = curso.percentagemExame * 0.01;
 
         // Calcular a média Minima provisória
-        let mediaExameMinimio = (curso.media - mediaDisciplinas * (1 - percentage)) / percentage;
+        let mediaExameMinimio = ((curso.media - mediaDisciplinas * (1 - percentage)) / percentage).toFixed(1);
 
         // Se preencher o campo de exames que o candidato já realizou
         if(exameCandidato){
